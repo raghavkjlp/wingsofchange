@@ -1,7 +1,6 @@
 import axios from "axios";
-
 const API = axios.create({
-  baseURL: "https://ngo-portal-7-9p8e.onrender.com/api", withCredentials:true // backend URL
+  baseURL: "https://wingsofchange11.onrender.com/api", withCredentials:true // backend URL
 });
 
 // Attach token to requests (if logged in)
@@ -10,5 +9,7 @@ API.interceptors.request.use((req) => {
   if (token) req.headers.Authorization = `Bearer ${token}`;
   return req;
 });
+
+
 
 export default API;

@@ -433,6 +433,11 @@ function Navbar() {
                   About
                 </Link>
               </li>
+                 <li className="nav-item">
+                <Link className="nav-link" to="/chatbot" onClick={handleLinkClick}>
+                  ChatBot
+                </Link>
+              </li>
 
               {/* Student links */}
               {isLoggedIn() && role === "student" && (
