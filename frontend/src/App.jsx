@@ -12,7 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import ActiveStudentsList from "./pages/ActiveStudentsList";
-import ChatBot from "./pages/ChatBot";
+
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-           <Route path="/chatbot" element={<ChatBot />} />
+      
           <Route path="/apply" element={<Apply />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/results" element={<Results />} />

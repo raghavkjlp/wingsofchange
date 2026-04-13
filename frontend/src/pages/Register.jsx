@@ -450,6 +450,8 @@ function Register() {
                   placeholder="Enter your full name"
                   value={formData.name}
                   onChange={handleChange}
+                  pattern="[A-Za-z ]+"
+                  title="Name should contain only alphabets"
                   required
                 />
               </div>
@@ -476,6 +478,8 @@ function Register() {
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
+                  pattern="^(?=.*[0-9])(?=.*@)[A-Z][A-Za-z0-9@]{7,}$"
+                  title="Password must be at least 8 characters, start with a capital letter, include a number and @"
                   required
                 />
               </div>

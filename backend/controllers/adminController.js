@@ -15,6 +15,22 @@ export const updateStudent = async (req, res) => {
   if (student) {
     student.status = req.body.status || student.status;
     await student.save();
+
+    // ✅ Yeh naya block add kiya
+    if (req.body.status === "selected") {
+      const alreadyExists = await ActiveStudent.findOne({ name: student.name });
+      if (!alreadyExists) {
+        await ActiveStudent.create({
+          name: student.name,
+          rollNumber: student.rollNumber || "N/A",
+          mobile: student.mobile || "N/A",
+          course: student.education,
+          year: String(new Date().getFullYear()),
+        });
+      }
+    }
+    // ✅ Block khatam
+
     res.json(student);
   } else {
     res.status(404).json({ message: "Student not found" });

@@ -32,7 +32,7 @@ function Donate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       await API.post("/donations", donor);
       alert("Your details have been submitted! Our team will contact you soon.");
@@ -678,7 +678,7 @@ body {
             Your contribution helps build a future grounded in values, education, and service.
             Together, we can empower the next generation of devoted leaders.
           </p>
-          
+
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-number">500+</span>
@@ -703,7 +703,7 @@ body {
 
         <div className="container content-wrapper">
           <div className="row g-4">
-            
+
             {/* Info Column */}
             <div className="col-lg-5">
               <div className="donate-info" data-aos="fade-right">
@@ -713,9 +713,9 @@ body {
                   </svg>
                   Why Donate?
                 </h2>
-                
+
                 <p className="info-text">
-                  Your generous contribution directly supports students from families devoted to 
+                  Your generous contribution directly supports students from families devoted to
                   religious service, helping them access quality education and reach their full potential.
                 </p>
 
@@ -746,8 +746,8 @@ body {
                   </li>
                 </ul>
 
-                <p className="info-text" style={{marginTop: '2rem'}}>
-                  <strong>Tax Benefits:</strong> All donations are eligible for tax deduction under 
+                <p className="info-text" style={{ marginTop: '2rem' }}>
+                  <strong>Tax Benefits:</strong> All donations are eligible for tax deduction under
                   Section 80G of the Income Tax Act.
                 </p>
               </div>
@@ -757,7 +757,7 @@ body {
             <div className="col-lg-7">
               <div className="donate-form-container" data-aos="fade-left">
                 <h2 className="form-title">Donation Form</h2>
-                
+
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label className="form-label">Full Name *</label>
@@ -768,6 +768,8 @@ body {
                       placeholder="Enter your full name"
                       className="form-input"
                       onChange={handleChange}
+                      pattern="[A-Za-z ]+"
+                      title="Only alphabets are allowed"
                       required
                     />
                   </div>
@@ -794,6 +796,8 @@ body {
                       placeholder="+91 XXXXX XXXXX"
                       className="form-input"
                       onChange={handleChange}
+                      pattern="[0-9]+"
+                      title="Only numbers are allowed"
                       required
                     />
                   </div>
@@ -838,6 +842,7 @@ body {
                         className="form-input amount-input"
                         onChange={handleChange}
                         min="500"
+                        max="200000"
                         required
                       />
                     </div>
@@ -853,11 +858,13 @@ body {
                       className="form-textarea"
                       rows="4"
                       onChange={handleChange}
+                      pattern="[A-Za-z ]*"
+                      title="Only alphabets are allowed"
                     ></textarea>
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="submit-button"
                     disabled={isSubmitting}
                   >
@@ -882,7 +889,7 @@ body {
                 <div className="payment-methods">
                   <h3 className="payment-title">What Happens Next?</h3>
                   <p className="payment-text">
-                    After submitting your details, our team will contact you within 24 hours with 
+                    After submitting your details, our team will contact you within 24 hours with
                     payment instructions and complete the donation process. Thank you for your generosity!
                   </p>
                 </div>
