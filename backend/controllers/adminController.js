@@ -17,7 +17,8 @@ export const updateStudent = async (req, res) => {
     await student.save();
 
     // ✅ Yeh naya block add kiya
-    if (req.body.status === "selected") {
+    const lowerStatus = req.body.status?.toLowerCase();
+    if (lowerStatus === "selected" || lowerStatus === "shortlisted") {
       const alreadyExists = await ActiveStudent.findOne({ name: student.name });
       if (!alreadyExists) {
         await ActiveStudent.create({
