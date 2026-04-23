@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://janhitsamiti.org/sitemap.xml

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import API from "../services/Api";
 import UploadBulkResults from "./UploadBulkResults";
 import UploadActiveStudents from "./UploadActiveStudents";
+import ActiveStudentsList from "./ActiveStudentsList";
 
 function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -38,6 +39,14 @@ function AdminDashboard() {
     try {
       await API.put(`/admin/students/${id}`, { status });
       fetchStudents();
+      
+      // If student is selected, switch to active students view
+      if (status.toLowerCase() === "selected") {
+        alert("Student successfully selected and moved to active students!");
+        setView("active");
+      } else if (status.toLowerCase() === "shortlisted") {
+        alert("Student successfully shortlisted!");
+      }
     } catch {
       alert("Error updating status");
     }
@@ -84,7 +93,12 @@ function AdminDashboard() {
       </div>
 
       {/* Active Students Management */}
-      {view === "active" && <UploadActiveStudents />}
+      {view === "active" && (
+        <>
+          <UploadActiveStudents />
+          <ActiveStudentsList />
+        </>
+      )}
 
       {/* Student Management */}
       {view === "students" && (
