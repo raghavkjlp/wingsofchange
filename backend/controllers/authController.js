@@ -19,19 +19,12 @@ const verifyCaptcha = async (token) => {
   }
 };
 
-// ✅ REGISTER (captcha only for non-admin)
+// ✅ REGISTER
 export const register = async (req, res) => {
   const { name, email, password, role, token } = req.body;
 
   try {
-    // 🔹 Skip captcha if role is admin
-    if (role !== "admin") {
-      const captchaOk = await verifyCaptcha(token);
-      if (!captchaOk) {
-        return res.status(400).json({ message: "Captcha verification failed" });
-      }
-    }
-
+    
     const userExists = await User.findOne({ email });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
@@ -91,12 +84,6 @@ export const login = async (req, res) => {
         },
         token: generateToken(admin._id),
       });
-    }
-
-    // 🔹 For students/donors → verify captcha
-    const captchaOk = await verifyCaptcha(token);
-    if (!captchaOk) {
-      return res.status(400).json({ message: "Captcha verification failed" });
     }
 
     // Regular users

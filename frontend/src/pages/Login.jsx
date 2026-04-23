@@ -25,29 +25,13 @@ function Login() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleCaptcha = (value) => {
-    setCaptchaToken(value);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // ✅ If not admin → must verify captcha
-    if (
-      !(formData.email === "admin@ngo.com" && formData.password === "Admin123") &&
-      !captchaToken
-    ) {
-      alert("Please verify that you are not a robot!");
-      return;
-    }
 
     setIsLoading(true);
 
     try {
-      const { data } = await API.post("/auth/login", {
-        ...formData,
-        token: captchaToken,
-      });
+      const { data } = await API.post("/auth/login", formData);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.user.role);
@@ -436,17 +420,6 @@ html, body {
                   required
                 />
               </div>
-
-              {/* ✅ Show captcha only if not admin */}
-              {!(formData.email === "admin@ngo.com") && (
-                <div className="captcha-wrapper" data-aos="fade-up" data-aos-delay="700">
-                  <ReCAPTCHA
-                    sitekey="6Lfgj0ksAAAAAJ4mGykeKyUX3mccL1T8O12j8Beg"
-                    onChange={handleCaptcha}
-                    theme="dark"
-                  />
-                </div>
-              )}
 
               <button
                 type="submit"
