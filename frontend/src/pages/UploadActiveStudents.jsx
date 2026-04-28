@@ -4,15 +4,14 @@ import API from "../services/Api";
 function UploadActiveStudents() {
   const [form, setForm] = useState({
     name: "",
-    rollNumber: "",
+    fathername: "",
     mobile: "",
-    course: "",
-    year: "",
+    class: "",
+    school: "",
   });
   const [file, setFile] = useState(null);
   const [students, setStudents] = useState([]);
 
-  // fetch active students
   const fetchActiveStudents = async () => {
     try {
       const { data } = await API.get("/admin/active-students");
@@ -35,8 +34,8 @@ function UploadActiveStudents() {
     e.preventDefault();
     try {
       await API.post("/admin/active-students", form);
-      alert("Active student added");
-      setForm({ name: "", rollNumber: "", mobile: "", course: "", year: "" });
+      alert("Active student added!");
+      setForm({ name: "", fathername: "", mobile: "", class: "", school: "" });
       fetchActiveStudents();
     } catch {
       alert("Error adding active student");
@@ -49,10 +48,10 @@ function UploadActiveStudents() {
     const fd = new FormData();
     fd.append("file", file);
     try {
-      await API.post("/admin/active-students/bulk", fd, {
+      const { data } = await API.post("/admin/active-students/bulk", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("Bulk upload successful");
+      alert(`✅ Bulk upload successful! ${data.count} students added.`);
       setFile(null);
       fetchActiveStudents();
     } catch {
@@ -73,6 +72,7 @@ function UploadActiveStudents() {
 
   return (
     <div className="mt-4">
+      {/* ── Single Add Form ── */}
       <div className="card p-3 mb-3">
         <h5>Add Single Active Student</h5>
         <form onSubmit={handleSubmit}>
@@ -87,9 +87,9 @@ function UploadActiveStudents() {
           />
           <input
             type="text"
-            name="rollNumber"
-            placeholder="Roll Number"
-            value={form.rollNumber}
+            name="fathername"
+            placeholder="Father's Name"
+            value={form.fathername}
             onChange={handleChange}
             className="form-control mb-2"
             required
@@ -105,17 +105,17 @@ function UploadActiveStudents() {
           />
           <input
             type="text"
-            name="course"
-            placeholder="Course"
-            value={form.course}
+            name="class"
+            placeholder="Class (e.g. 10th, 12th)"
+            value={form.class}
             onChange={handleChange}
             className="form-control mb-2"
           />
           <input
             type="text"
-            name="year"
-            placeholder="Year"
-            value={form.year}
+            name="school"
+            placeholder="School Name"
+            value={form.school}
             onChange={handleChange}
             className="form-control mb-2"
           />
@@ -125,8 +125,9 @@ function UploadActiveStudents() {
         </form>
       </div>
 
+      {/* ── Bulk Upload ── */}
       <div className="card p-3 mb-3">
-        <h5>Bulk Upload Active Students</h5>
+        <h5>Bulk Upload Active Students (Excel / CSV)</h5>
         <form onSubmit={handleBulkUpload}>
           <input
             type="file"
@@ -139,45 +140,49 @@ function UploadActiveStudents() {
           </button>
         </form>
         <p className="text-muted mt-2">
-          File must contain: <b>name, rollNumber, mobile, course, year</b>
+          ✅ Excel/CSV must have these exact column headers:{" "}
+          <b>name, fathername, mobile, class, school</b>
         </p>
       </div>
 
+      {/* ── Active Students Table ── */}
       <div className="mt-4">
         <h5>Active Students List</h5>
-        <table className="table table-bordered">
-          <thead className="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Roll Number</th>
-              <th>Mobile</th>
-              <th>Course</th>
-              <th>Year</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((s, i) => (
-              <tr key={s._id}>
-                <td>{i + 1}</td>
-                <td>{s.name}</td>
-                <td>{s.rollNumber}</td>
-                <td>{s.mobile}</td>
-                <td>{s.course}</td>
-                <td>{s.year}</td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => deleteActiveStudent(s._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="table-responsive">
+          <table className="table table-bordered">
+            <thead className="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Father Name</th>
+                <th>Mobile</th>
+                <th>Class</th>
+                <th>School</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {students.map((s, i) => (
+                <tr key={s._id}>
+                  <td>{i + 1}</td>
+                  <td>{s.name}</td>
+                  <td>{s.fathername}</td>
+                  <td>{s.mobile}</td>
+                  <td>{s.class}</td>
+                  <td>{s.school}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => deleteActiveStudent(s._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
