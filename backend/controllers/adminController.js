@@ -132,6 +132,8 @@ export const bulkUploadActiveStudents = async (req, res) => {
   }
 };
 
+
+
 export const getActiveStudents = async (req, res) => {
   try {
     const students = await ActiveStudent.find();

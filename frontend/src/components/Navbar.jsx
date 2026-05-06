@@ -389,7 +389,7 @@ function Navbar() {
           >
             <div className="brand-logo position-relative">
               <img
-                src="logo.jpeg"
+                src="logo.png"
                 alt="Logo"
                 width="45"
                 height="45"

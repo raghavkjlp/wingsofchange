@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/Api";
-import ReCAPTCHA from "react-google-recaptcha";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -10,7 +9,6 @@ function Login() {
     email: "",
     password: "",
   });
-  const [captchaToken, setCaptchaToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -348,8 +346,8 @@ html, body {
   }
 
   .submit-btn {
-    padding: 1rem;
-    font-size: 1rem;
+    padding: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .captcha-wrapper {
@@ -357,8 +355,8 @@ html, body {
   }
 
   .orb-1, .orb-2 {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
   }
 }
 

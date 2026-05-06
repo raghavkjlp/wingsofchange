@@ -14,7 +14,7 @@ function Footer() {
                 <div className="footer-section">
                   <div className="d-flex align-items-center mb-3">
                     <img
-                      src="logo.jpeg"
+                      src="logo.png"
                       alt="Logo"
                       width="50"
                       height="50"

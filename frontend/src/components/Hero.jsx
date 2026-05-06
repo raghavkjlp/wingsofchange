@@ -656,7 +656,7 @@ function Hero() {
           <div className="hero-logo-container">
             <div className="hero-logo-glow"></div>
             <img
-              src="logo.jpeg"
+              src="logo.png"
               alt="Sardar Kartar Singh Jhabbar Trust Logo"
               className="hero-logo"
             />
