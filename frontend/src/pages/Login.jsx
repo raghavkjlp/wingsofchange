@@ -31,8 +31,8 @@ function Login() {
     try {
       const { data } = await API.post("/auth/login", formData);
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user.role);
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("role", data.user.role);
       alert(`Welcome back, ${data.user.name}`);
       navigate("/");
     } catch (error) {

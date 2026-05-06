@@ -47,8 +47,8 @@ function Register() {
       });
 
       alert(`User registered: ${data.user.name}`);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user.role);
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("role", data.user.role);
       window.location.href = "/";
     } catch (error) {
       alert(error.response?.data?.message || "Registration failed");
