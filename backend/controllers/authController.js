@@ -23,15 +23,29 @@ export const register = async (req, res) => {
   const { name, email, password, role, token } = req.body;
 
   try {
-    
+
     const userExists = await User.findOne({ email });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
+    // Password validation
+    if (!password || password.length < 8) {
+      return res.status(400).json({ message: "Password must be at least 8 characters long" });
+    }
+    if (!/^[A-Z]/.test(password)) {
+      return res.status(400).json({ message: "Password must start with a capital letter" });
+    }
+    if (!/@/.test(password)) {
+      return res.status(400).json({ message: "Password must contain an '@' symbol" });
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
       name,
       email,
-      password,
+      password: hashedPassword,
       role,
     });
 
@@ -62,10 +76,11 @@ export const login = async (req, res) => {
     if (email === "admin@ngo.com" && password === "Admin123") {
       let admin = await User.findOne({ email });
       if (!admin) {
+        const hashedPassword = await bcrypt.hash(password, 10);
         admin = await User.create({
           name: "Admin",
           email,
-          password,
+          password: hashedPassword,
           role: "admin",
         });
       }

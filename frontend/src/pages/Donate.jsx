@@ -796,8 +796,8 @@ body {
                       placeholder="+91 XXXXX XXXXX"
                       className="form-input"
                       onChange={handleChange}
-                      pattern="[0-9]+"
-                      title="Only numbers are allowed"
+                      pattern="[0-9]{10,15}"
+                      title="Phone number must be between 10 and 15 digits"
                       required
                     />
                   </div>
@@ -858,8 +858,6 @@ body {
                       className="form-textarea"
                       rows="4"
                       onChange={handleChange}
-                      pattern="[A-Za-z ]*"
-                      title="Only alphabets are allowed"
                     ></textarea>
                   </div>
 

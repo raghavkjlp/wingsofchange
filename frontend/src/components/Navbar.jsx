@@ -21,7 +21,7 @@ function Navbar() {
   const handleLinkClick = () => setIsOpen(false);
   const handleLogout = () => {
     logoutUser();
-    navigate("/login");
+    navigate("/");
   };
 
   const role = getUserRole();
