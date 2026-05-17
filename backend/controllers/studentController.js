@@ -8,10 +8,29 @@ const storage = multer.memoryStorage();
 export const upload = multer({ storage });
 
 // 🔹 Helper to upload buffer to Cloudinary
-const uploadToCloudinary = (fileBuffer, filename) => {
+const uploadToCloudinary = (file, prefix) => {
   return new Promise((resolve, reject) => {
+    // Preserve original extension and add a timestamp to prevent overwrites
+    const originalName = file.originalname || "";
+    const extIndex = originalName.lastIndexOf(".");
+    let ext = extIndex !== -1 ? originalName.substring(extIndex) : "";
+
+    // Fallback to mimetype if extension is missing
+    if (!ext && file.mimetype) {
+      if (file.mimetype === "application/pdf") ext = ".pdf";
+      else if (file.mimetype === "image/jpeg") ext = ".jpg";
+      else if (file.mimetype === "image/png") ext = ".png";
+      else if (file.mimetype.startsWith("image/")) ext = ".jpg"; // fallback
+    }
+
+    const uniqueFilename = `${prefix}_${Date.now()}${ext}`;
+
     const stream = cloudinary.uploader.upload_stream(
-      { folder: "students", resource_type: "raw", public_id: filename },
+      {
+        folder: "students",
+        resource_type: "raw", // "raw" allows PDFs to be accessed properly without Cloudinary image transformations blocking them
+        public_id: uniqueFilename
+      },
       (error, result) => {
         if (error) {
           console.error("❌ Cloudinary error:", error);
@@ -21,7 +40,7 @@ const uploadToCloudinary = (fileBuffer, filename) => {
         }
       }
     );
-    stream.end(fileBuffer);
+    stream.end(file.buffer);
   });
 };
 
@@ -38,30 +57,28 @@ export const applyStudent = async (req, res) => {
 
     if (files.aadhaar) {
       documents.aadhaar = await uploadToCloudinary(
-        files.aadhaar[0].buffer,
+        files.aadhaar[0],
         "aadhaar"
       );
     }
     if (files.reportCard) {
       documents.reportCard = await uploadToCloudinary(
-        files.reportCard[0].buffer,
+        files.reportCard[0],
         "reportCard"
       );
     }
-
     if (files.granthiProof) {
       documents.granthiProof = await uploadToCloudinary(
-        files.granthiProof[0].buffer,
+        files.granthiProof[0],
         "granthiProof"
       );
     }
     if (files.parentAadhaar) {
       documents.parentAadhaar = await uploadToCloudinary(
-        files.parentAadhaar[0].buffer,
+        files.parentAadhaar[0],
         "parentAadhaar"
       );
     }
-
 
 
     const student = await Student.create({
