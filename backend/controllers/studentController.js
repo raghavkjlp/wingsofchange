@@ -11,7 +11,7 @@ export const upload = multer({ storage });
 const uploadToCloudinary = (fileBuffer, filename) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder: "students", resource_type: "auto", public_id: filename },
+      { folder: "students", resource_type: "raw", public_id: filename },
       (error, result) => {
         if (error) {
           console.error("❌ Cloudinary error:", error);
